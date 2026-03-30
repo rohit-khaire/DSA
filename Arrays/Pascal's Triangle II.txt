@@ -1,0 +1,38 @@
+For understanding and imp theory look for Pascal's Triangle txt
+
+Link: https://leetcode.com/problems/pascals-triangle-ii
+
+
+0  | 1
+1  | 1 1
+2  | 1 2 1
+3  | 1 3 3 1
+4  | 1 4 6 4 1
+--------------------------
+     0 1 2 3 4
+
+
+Q. Print Rth row present in Pascal's Triangle 
+
+rowIndex = 3
+[1,3,3,1]
+
+
+
+class Solution {
+public:
+    vector<int> getRow(int rowIndex) {
+        long long res =1;
+        vector<int> arr;
+        for(int col=0;col<=rowIndex;col++){
+            if(col!=0){
+                res = res * (rowIndex+1-col);
+                res = res/col;
+            }else{
+                res =1;
+            }
+            arr.push_back(res);
+        }
+        return arr;
+    }
+};
