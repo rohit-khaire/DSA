@@ -105,16 +105,57 @@ Like {54321}, It's last so ans is {12345}
 
 3. After longest prefix match (2 in our case), put(swap) someone who is closest and greater to that 1st number (1 in our case) from right side set
 
+Start from last, any replace w any ele which is greater and closet ( look only for graeter value from last and it will be automatically closest)
+
 2_ => greater and closest to 1 from {5,4,3} = 3
 
 23 and {1,5,4}
 
-3. Now put right side list in Sorted order to form smallest no. as possible
+3. Now put right side list in Sorted order to form smallest no. as possible ( Reverse also possible, done in code)
 
 which is 145
 
 Answer: **23145**
 
 
+## *Code:*
+
+```
+
+class Solution {
+public:
+    vector<int> nextPermutation(vector<int>& A) {
+        int ind=-1;
+        int n= A.size();
+
+        for(int i=n-2;i>=0;i--){  //Find Break Point, start from 2nd last ele
+            if(A[i]<A[i+1]){
+                ind=i;
+                break;
+            }
+        }
+
+        if(ind==-1){   // Means No swapping Happend it means eles are in Decending order like 54321, means it's last permutation
+            reverse(A.begin(),A.end());   // So just reverse it like 12345 (as It's answer is 1st permutation)
+            return A;
+        }
+
+        for(int i=n-1;i>ind;i--){ // Swap value at ind with graeter and closest val, It can be found from last, from last swap w any element which is greater than A[ind]
+            if(A[i]>A[ind]){
+                swap(A[i],A[ind]);
+                break;
+            }
+        }
+
+        reverse(A.begin() + ind +1,A.end()); // Now just reverse the eles after A[ind] to create the smallest no. possible
+        return A;
+
+    }
+};
+
+```
 
 
+**TC Approx O(N+N+N) = O(3N)**
+
+**SC Approx O(1) or O(2)**
