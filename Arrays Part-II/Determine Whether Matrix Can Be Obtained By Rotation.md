@@ -10,6 +10,11 @@
 
 Rotating matrix mat and checking each time that does it matches target matrix
 
+# Approach
+1. Transpose the Matrix ( Convert Rows into Columns)
+2. Reverse all the Rows -> Got 90 Degree Rotated Matrix
+3. Match Matrix *mat* with Matrix *target*
+
 ## 🔁 Core Idea (1 line)
 
 To rotate a matrix **90° clockwise** → **Transpose + Reverse each row**
@@ -130,3 +135,10 @@ public:
     }
 };
 ```
+
+# Complexity
+- Time complexity: O(n²)
+<img width="577" height="281" alt="image" src="https://github.com/user-attachments/assets/c01dfe88-dbf9-476d-a0b8-6bc64ae00cff" />
+
+
+- Space complexity: O(1)
