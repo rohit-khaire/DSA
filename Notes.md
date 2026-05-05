@@ -16,4 +16,14 @@ return empty array: {}
 
  return array with 2 elements: { i, j }
 
+ Check two arrays are same => A == B
+
+ Pass by reference for Vector => 
  
+ ```
+void rotate( vector<int> &arr){}
+
+```
+
+
+
