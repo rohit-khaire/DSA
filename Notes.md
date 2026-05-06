@@ -24,6 +24,12 @@ return empty array: {}
 void rotate( vector<int> &arr){}
 
 ```
+<br> 
 
+- v.empty();  => check empty
+
+- v.back(); => returns last element (In 2D Vector, get last row)
+
+- v.push_back(x);  => insert, can also add whole row at last `ans.push_back(arr[i])`
 
 
