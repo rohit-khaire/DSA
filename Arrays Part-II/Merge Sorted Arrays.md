@@ -85,11 +85,16 @@ public:
         int j = n - 1;  //end index of nums2
         int k = m + n - 1; //end index of nums1 array, after 0s, currently pointing to last o in nums1
         
-        while (j >= 0) {
-            if (i >= 0 && nums1[i] > nums2[j]) {
-                nums1[k--] = nums1[i--];
-            } else {
-                nums1[k--] = nums2[j--];
+        while(j>=0){
+            if(i>=0 && nums1[i]>nums2[j]){
+                nums1[k]=nums1[i];
+                k--;
+                i--;
+            }
+            else{
+                nums1[k]=nums2[j];
+                k--;
+                j--;
             }
         }
     }
