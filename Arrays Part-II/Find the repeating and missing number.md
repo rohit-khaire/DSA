@@ -65,3 +65,61 @@ public:
 *Create Variable sized Array using: vector<int> hash((n * n) + 1, 0)*
 
 Vactor of size 0 -> (n*n) and all values set to 0.
+
+**TC = O(n²) + O(n²) = O(2n²) = O(n²)**
+
+Iteration on grid + Interation on Hash array
+
+**SC = O(n²)**
+
+
+## Optimal Solution to remove extra space
+
+2 Ways : Maths and XOR
+
+## Mathematical Optimal Solution
+
+Where vals ranges for [1,n]
+
+For A = {1,3,2,2}
+
+repeated = 2
+
+missing = 4
+
+n = 4
+
+We can get repeated and missing using maths
+
+**Sum of N natural no. = n(n+1)/2**   = SN => 10
+
+**Sum of squares of N natural no. = n(n+1)(2n+1)/6**   = S2N => 30
+
+**Sum of A = 1+3+2+2 = 8**    = SA
+
+**Sum of squares of vals of A = 1*1 + 3*3 + 2*2 + 2*2 = 1+9+4+4 = 18**  = S2A
+
+
+
+SA-SN = {1+3+2+2} - {1+2+3+4} = 1+3+2+2  -1-2-3-4 = 2 -4 = **{repeating,missing} = {2,4}**
+
+Now to get this in program:
+
+SA - SN = -2  => X-Y=val1
+
+S2A - S2N = 18 - 30 = -12  => X^2 - Y^2 = val2
+
+X^2 - Y^2 = (X+Y)(X-Y) 
+
+X+Y = val2/(X-Y) = val2/val1 => X+Y = val2
+
+
+X,Y => <br>
+
+X-Y = val1 <br>
+X+Y = val2 <br>
+
+Got X and Y , X is repeated and Y is missing value
+
+
+
