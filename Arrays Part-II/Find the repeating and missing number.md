@@ -2,6 +2,8 @@
 
 [LeetCode](https://leetcode.com/problems/find-missing-and-repeated-values/description/)
 
+``Solution: Use Hashing or for O(1) SC use Mathematical Equation of 2 variables X+Y=val2...``
+
 ## Extreme  Brute Force
 
 Interate and get count of vals in Array. Whichever ele is having count as 0 is the missing number and the one having count as 2 is the repeating Number.
@@ -121,5 +123,43 @@ X+Y = val2 <br>
 
 Got X and Y , X is repeated and Y is missing value
 
+## Code using Mathematics
 
+```
+class Solution {
+public:
+    vector<int> findMissingAndRepeatedValues(vector<vector<int>>& A) {
+        int n = A.size();
+        long long eles = n*n;
+        long long SA=0 , S2A=0;
+        long long SN = (eles*(eles+1))/2;
+        long long S2N = (eles*(eles+1)*(2*eles+1))/6;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<n;j++){
+                SA+=(long long)A[i][j];
+                S2A+= (long long) (A[i][j]*A[i][j]);
+            }
+        }
+        long long val1 = SA - SN; // X-Y=val1
+        long long val2 = S2A - S2N; //X^2 - Y^2 = val2
+        // X^2 - Y^2 = (X+Y)(X-Y) = val2
+        // (X+Y)=val2/(X-Y)
+        // (X+Y)=val2/ val1
+        val2 = val2/val1; // X+Y=val2
+        //Find vals of X and Y
+        // X-Y + X+Y = 2X = val1+val2
+        long long repeated = (val1+val2)/2; //X = val1+val2/2
+        // X-Y - (X+Y) = X-Y -X-Y = -2Y = val1-val2
+        long long missing = (val1-val2)/(-2);
+        return {(int)repeated,(int)missing};
+    }
+};
+```
+
+
+
+| Approach     | TC      | SC      |
+| ------------ | ------- | ------- |
+| Hashing      | `O(n²)` | `O(n²)` |
+| Math Formula | `O(n²)` | `O(1)`  |
 
