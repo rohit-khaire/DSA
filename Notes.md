@@ -2,9 +2,15 @@
 
 reverse(A.begin(), A.end())   {Excluding 2nd parameter wala index like range() }
 
-sort(A.begin()+ 2, A.end() )
+sort(A.begin()+ 2, A.end() ) <br>
 
-N = A.size()    (Total no. of ele)
+N = A.size()    (Total no. of ele in 1D) <br>
+
+In 2D Array:
+
+To get no. of rows: a.size();
+
+To get no. of cols : arr[0].size()
 
 swap( A[i], A[ind] )
 
@@ -32,4 +38,8 @@ void rotate( vector<int> &arr){}
 
 - v.push_back(x);  => insert, can also add whole row at last `ans.push_back(arr[i])`
 
+
+Variable sized array Declaration using Vector:
+
+``vector<int> hash((n * n) + 1, 0);``
 
