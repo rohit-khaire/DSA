@@ -43,3 +43,16 @@ Variable sized array Declaration using Vector:
 
 ``vector<int> hash((n * n) + 1, 0);``
 
+
+MAP:
+
+ordered map => map<int,int> mpp;    // ordered by keys
+
+unordered map => unordered_map<int,int> mpp;
+
+To store element in map => mpp[0] = 5; => {0,5}  // BY default values are initially 0s
+
+<br>
+
+To make any -ve no. positive = abs(x) or -1*x
+
