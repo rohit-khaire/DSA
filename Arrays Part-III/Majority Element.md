@@ -70,5 +70,78 @@ public:
 **SC = O(N)** : As we are using a hashmap to store the counts of each element, which can take up to N space in the worst case.
 
 
-## Optimal 
+## Optimal - Using Moore's Voting Algorithm
+
+The intuition behind this algo is that if an element appears more than n/2 times, then it remain after cancelling out all the other distinct elements.
+
+It is majority as after removing distinct elements, majority stays
+
+| Majority Elements | Distinct Minority Elements | After Pairwise Cancellation         |
+| ----------------- | -------------------------- | ----------------------------------- |
+| `+++++` (5)       | `---` (3)                  | `++` → Majority survives (`2` left) |
+
+Explanation using Moore's Voting Algorithm:
+
+* Each `-` cancels one `+`
+* Since majority count is greater than `n/2`, some majority elements always remain
+* Remaining count here: `5 - 3 = 2`
+
+
+After applying Moore's Voting Algorithm, a second pass is required to verify if the candidate element (ele) actually appears more than n/2 times.
+
+**A majority element survives even after cancelling out one occurrence of it with every occurrence of other elements.**
+
+Algorithm:
+
+* Initialize two variables: count (cnt) to track the count of elements, and element (ele) to keep track of the element being counted.
+
+* Start Traversing through the given array. If count is 0, store the current value of the array as element (ele = nums[i]).
+
+* If the current element in the array is the same as element, increment the count by 1.
+
+* If the current element is different from element, decrement the count by 1.
+
+* At the end of the traversal, the integer stored in ele variable will be the expected result (the majority element).
+
+* Check/Verify this, by getting the count(cnt2) for that ele in the array. If it's count2 > n/2 ; return ele or else -1 for no majority
+
+* At the end, cnt is useless and cnt2 can be used as count of majority element.
+
+```
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        // A element that occurs more than n/2 - Moore's Voting Algo
+        int cnt=0;
+        int ele;
+        int n = nums.size();
+        for(int i=0;i<n;i++){
+            if(cnt==0){
+                ele = nums[i];
+            }
+            if(nums[i]==ele){
+                cnt++;
+            }else{
+                cnt--;
+            }
+        }
+        int cnt2=0;
+        for(int i=0;i<n;i++){
+            if(nums[i]==ele){
+                cnt2++;
+            }
+        }
+        if(cnt2 > n/2) return ele;
+        return -1;
+    }
+};
+```
+
+
+**TC = O(N)**
+
+**SC = O(1)**
+
+
+
 
