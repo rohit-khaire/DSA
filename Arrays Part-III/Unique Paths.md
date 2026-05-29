@@ -10,7 +10,7 @@ But I will go from [m-1][n-1] to [0][0] , with directions up and left only
 
 *Similar Concepts and Notes and Code are in DSA Notebook*
 
-## Without Memoization ( Exceeds Time Limit ) Purely recursion
+## Without Memoization (without dp grid ( Exceeds Time Limit ) Purely recursion
 
 ```
 class Solution {
@@ -68,5 +68,38 @@ public:
 ```
 
 **TC = O(m*n)  and SC = O(m*n + m)**
+
+## Using Tabulation ( No recursion, but with dp grid )
+
+Declare a dp[] array of size [m][n], where m and n represent the number of rows and columns of the grid, respectively. The dp[i][j] stores the total number of ways to reach from the start (0,0) to the cell (i,j).
+
+Set the base case: As per the recursive approach, dp[0][0] is 1, indicating there is only one way to reach the starting position. So, initialize dp[0][0] = 1.
+
+Use two nested loops to fill the dp array iteratively. The outer loop iterates through rows (i from 0 to m-1), and the inner loop iterates through columns (j from 0 to n-1).
+
+For each cell dp[i][j], calculate the number of ways to reach it from the top (dp[i-1][j]) and from the left (dp[i][j-1]). Add the values of dp[i-1][j] and dp[i][j-1] to get the total number of ways to reach dp[i][j].
+
+As the question asks for the total number of ways, update dp[i][j] as the sum of dp[i-1][j] (ways from above) and dp[i][j-1] (ways from left).
+
+Once all cells are processed, the last element dp[m-1][n-1] will contain the total number of ways to reach the destination (bottom-right corner) of the grid. Return this value as the result after the bottom-up computation.
+
+
+```
+    int uniquePaths(int m, int n) {
+        vector<vector<int>> dp(m,vector<int>(n,0));
+        // Store in dp, no. of paths from [0][0] to [i][j]
+        dp[0][0] = 1; // one way to reach from itself to itself
+        for(int i=0;i<m;i++){
+            for(int j=0;j<n;j++){
+                if(i-1 >= 0 ) dp[i][j] += dp[i-1][j];
+                if(j-1 >= 0 ) dp[i][j] += dp[i][j-1];
+            }
+        }
+        return dp[m-1][n-1];
+
+    }
+```
+
+**TC = O(m*n) and SC = O(m*n)**
 
 
