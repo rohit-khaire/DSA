@@ -103,3 +103,50 @@ Once all cells are processed, the last element dp[m-1][n-1] will contain the tot
 **TC = O(m*n) and SC = O(m*n)**
 
 
+# Space Optimized Solution ( Instead of using whole dp grid, only used 2 vectors)
+
+**No recursion or no whole dp grid**
+
+Instead of using the whole dp grid, we can use a single array for storing vals and one array for computaion.
+
+Likewise topic's notes are in DSA Notebook.
+
+This reduced space and provides *100% Beating* Solution
+
+* Algo:
+
+Observe the relationship obtained in the tabulation approach: dp[i][j] = dp[i-1][j] + dp[i][j-1]. We notice that to calculate dp[i][j], we only need the values from the previous row and the current row. This allows us to optimize the space usage.
+
+Instead of maintaining the entire 2D dp array, we can use two arrays, one for the current row (let's call it temp) and one for the previous row (let's call it prev).
+
+Initially, initialize the prev array to all zeros to represent the starting point. The temp array will hold the current row's values during the iteration.
+
+For each row, use the prev array (representing the previous row) and the temp array (representing the current row) to compute the values of dp[i][j].
+
+After processing the current row, set prev to be equal to temp, so that in the next iteration, prev will represent the previous row, and temp will be ready to hold the new row's values.
+
+At the end of the process, prev[n-1] will store the final result, which contains the total number of ways to reach the destination in the grid. This provides the answer in a space-efficient manner using only two rows.
+
+
+```cpp
+    int uniquePaths(int m, int n) {
+        vector<int> prev(n,1);
+        // Store in dp, no. of paths from [0][0] to [i][j]
+        // one way to reach from itself to itself
+        for(int i=1;i<m;i++){
+            vector<int> temp(n,0);
+            for(int j=0;j<n;j++){
+                if(i-1 >= 0 ) temp[j] += prev[j];
+                if(j-1 >= 0 ) temp[j] += temp[j-1];
+            }
+            prev = temp;
+        }
+        return prev[n-1];
+
+    }
+```
+
+**TC = m*n and SC=2n**
+
+
+Solution at 12:19 AM 🕛, that too with the efforts of whole dayyyy, Now I desrve sleeepppp
