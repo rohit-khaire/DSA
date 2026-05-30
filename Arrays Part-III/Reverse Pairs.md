@@ -20,7 +20,7 @@ Inside this second loop, we will check if a[i] > 2*a[j] i.e. if a[i] and a[j] ca
 
 Finally, we will return the count i.e. the number of such pairs.
 
-```
+```cpp
 class Solution {
 public:
     int reversePairs(vector<int>& arr) {
@@ -39,5 +39,11 @@ public:
 **But this gives Time Limit Exceed Error**
 
 **TC = O(N^2) and SC=O(1)**
+
+> *For n = 50,000, that's about 1.25 billion comparisons, which will definitely TLE (Time Limit Exceed)*
+
+# Optimal : Merge Sort + Two Pointers
+
+
 
 
