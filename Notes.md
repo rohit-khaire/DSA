@@ -36,6 +36,8 @@ return empty array: {}
 
  Check two arrays are same => A == B
 
+ check if variable is integer or not => more >= INT_MIN && more <= INT_MAX
+
  Pass by reference for Vector => 
  
  ```
@@ -77,4 +79,61 @@ Why not if(mpp[more]) used, as if more not found, then it creates a one with 0 a
 <br>
 
 To make any -ve no. positive = abs(x) or -1*x
+
+**Use set to avoid duplicates**
+
+set<int> st;    //set if integers
+
+set<vector<int>> st;  // set of int vector
+
+st.insert({arr[i], arr[j], arr[k], arr[l]});  //insert vector in set
+
+vector<vector<int>>(st.begin(), st.end());  // Convert set of vectors To vector of int vector
+
+**Use long long to compute huge numbers calculations**
+
+temp.count(more)  // get the count from set
+
+### `set` in C++ — Quick 1-Line Notes
+
+* `set<int> s;` → Stores **unique elements in sorted order** (ascending by default).
+* `s.insert(x);` → Inserts `x` if not already present. **O(log n)**.
+* `s.erase(x);` → Removes `x` from the set. **O(log n)**.
+* `s.count(x);` → Returns `1` if `x` exists, otherwise `0`. **O(log n)**.
+* `s.find(x);` → Returns iterator to `x`, or `s.end()` if not found. **O(log n)**.
+* `s.size();` → Returns number of elements. **O(1)**.
+* `s.empty();` → Returns `true` if set is empty. **O(1)**.
+* `s.clear();` → Removes all elements.
+* `s.begin();` → Iterator to the smallest element.
+* `s.rbegin();` → Reverse iterator to the largest element.
+* `*s.begin();` → Smallest element in the set.
+* `*s.rbegin();` → Largest element in the set.
+* `s.lower_bound(x);` → First element **≥ x**. **O(log n)**.
+* `s.upper_bound(x);` → First element **> x**. **O(log n)**.
+* `distance(s.begin(), s.find(x));` → Index-like position of `x` (costly: **O(n)**).
+* `set<int, greater<int>> s;` → Stores unique elements in descending order.
+
+### Common Checks
+
+```cpp
+if(s.count(x))      // x exists
+if(s.find(x)!=s.end()) // x exists
+```
+
+### Iteration
+
+```cpp
+for(auto it : s) cout << it << " ";
+```
+
+
+* **Ordered Set (`set`)** → Implemented using **Red-Black Tree (BST)**, so **insert, erase, find, count = O(log n)**
+
+
+* **Unordered Set (`unordered_set`)** → Implemented using **Hash Table**, so **insert, erase, find, count = O(1) average, O(n) worst case**.
+
+
+* `set` → **Sorted + Unique + O(log n)**
+* `unordered_set` → **Unsorted + Unique + O(1) average** 
+
 
