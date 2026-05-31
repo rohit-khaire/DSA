@@ -117,3 +117,83 @@ public:
     }
 };
 ```
+
+Inside the innermost loop:
+
+temp.count() → average O(1)
+
+temp.insert() → average O(1)
+
+Creating sortFour of size 4 → O(1)
+
+sort(sortFour.begin(), sortFour.end()) sorts only 4 elements → O(1)
+
+res.insert(sortFour) into a set, it's imp, set insertion=O(logm) for m unique quadruplets, in worst case m=n^2 which becomes 2logn
+
+**TC= O(n^3) * O(2logn) = O(n^3 * logn)**
+
+**SC= O(n^3)**
+
+
+
+## Optimal Solution ( When Index Doesn't Matters ) Using Sorting 
+
+Sorting -> loop i -> skip if duplicate -> loop j -> skip if duplicate -> k=j+1 and l=n-1 -> sum -> If sum>target then l-- -> if sum<target k++ -> Avoid Duplicates by skipping -> if sum=target strore it and it's in sorted manner already
+
+<img width="534" height="293" alt="image" src="https://github.com/user-attachments/assets/ddf4b798-afca-4dca-b7e0-5ef86bcefdc5" />
+
+- Sort the array first.
+- Use the first loop to pick the first number. Skip it if it is the same as the previous one to avoid duplicates.
+- Inside it, use the second loop to pick the second number. Also skip it if it repeats the previous one.
+- Set two pointers: one just after the second number (left pointer) and one at the end of the array (right pointer).
+- While the left pointer is before the right pointer, calculate the total of the four chosen numbers.
+- If the total equals the target, save the quadruplet, then move both pointers(k++ and l--) while skipping duplicate numbers.
+- If the total is less than the target, move the left pointer one step forward to increase the total. Avoiding duplicates.
+- If the total is greater than the target, move the right pointer one step backward to reduce the total. Avoiding duplicate.
+- After all loops finish, return the list of unique groups of four numbers.
+
+```cpp
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        int n=nums.size();
+        vector<vector<int>> res;
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<n;i++){
+            if(i>0 && nums[i]==nums[i-1]) continue; //To avoid duplicates
+            for(int j=i+1;j<n;j++){
+                if(j!=i+1 && nums[j]==nums[j-1]) continue;
+                int k=j+1;
+                int l=n-1;
+                while(k<l){
+                    long long sum = nums[i];
+                    sum+=nums[j];
+                    sum+=nums[k];
+                    sum+=nums[l];
+                    if(sum==target){
+                        res.push_back({nums[i],nums[j],nums[k],nums[l]}); //i,j,k,l and their vals are already in sorted order
+                        k++;
+                        l--;
+                        while(nums[k]==nums[k-1] && k<l) k++;
+                        while(nums[l]==nums[l+1] && k<l) l--;
+                    }
+                    else if(sum<target){
+                        k++;
+                        while(k<l && nums[k]==nums[k-1]) k++;
+                    }
+                    else{
+                        l--;
+                        while(k<l && nums[l]==nums[l+1]) l--;
+                    }
+                }
+            }
+
+        }
+        return res;
+    }
+};
+```
+
+``Time Complexity: O(N^3), as Each of the pointers i and j, is running for approximately N times. And both the pointers k and l combined can run for approximately N times including the operation of skipping duplicates. So the total time complexity will be O(N^3). ``
+
+``Space Complexity: O(no. of quadruplets), as This space is only used to store the answer. We are not using any extra space to solve this problem. So, from that perspective, space complexity can be written as O(1).``
