@@ -152,3 +152,63 @@ public:
 
 ## OPTIMAL APPROACH
 
+
+Use unorder_set to remove all the duplicates, now start iterating the set itself, if the current element is not the starting element in sequence ( there exists x-1 element in the set), then just skip as We will only be working when the current is the First element of sequence. If current element is the first element of sequence then we just copy it and increase the count until there is no further sequnece availabe ( not x+1 exists in set). And then select max from cnt and longestLength.
+
+```cpp
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_set<int> st;
+        for(int i=0;i<nums.size();i++){
+            st.insert(nums[i]);
+        }
+        int cnt,longestLength=0;
+        for(auto curr: st){
+            if(st.count(curr-1)) continue; //current-1 exists
+            else{
+                // I am the starting
+                cnt=1;
+                int temp=curr;
+                while(st.count(temp+1)){
+                    cnt++;
+                    temp+=1;
+                }
+                longestLength=max(longestLength,cnt);
+            }
+        }
+        return longestLength;
+    }
+};
+```
+
+### Why it works
+
+* The set removes duplicates.
+* A number is a **starting point** only if `curr - 1` is not present.
+* From each starting point, you keep extending the sequence.
+* Every number is effectively processed at most once across all `while` loops.
+
+### Complexity
+
+* Insert into set: **O(n)** average
+* Traverse set: **O(n)** average
+* Sequence expansion: **O(n)** total average
+
+**TC:** `O(n)` average
+**SC:** `O(n)`
+
+### Small Revision Note
+
+**Algorithm:**
+
+1. Insert all elements into a hash set.
+2. For each number:
+
+   * If `num - 1` exists → skip.
+   * Otherwise, start a sequence.
+3. Count consecutive numbers using `while(num + 1 exists)`.
+4. Update maximum length.
+5. Return maximum length.
+
+
