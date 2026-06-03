@@ -60,3 +60,30 @@ public:
 **TC=O(N) and SC=O(1)**
 
 ## Recursive SOlution
+
+<img width="287" height="110" alt="image" src="https://github.com/user-attachments/assets/df8c5e38-fd5e-43bc-9b5b-9ba555a8b564" />
+
+The function ``reverseList`` returns newHead by reversing the the List. If current element is NULL or current cha Next is NULL then it's already in reversed order. We can access the last element of reversed list by using the current cha next pointer.
+
+```cpp
+class Solution {
+public:
+    ListNode* reverseList(ListNode* curr) {
+        if(curr==NULL || curr->next==NULL){
+            return curr;
+        }
+        ListNode *newHead=reverseList(curr->next);
+        ListNode *lastEleOfReversed=curr->next;
+        lastEleOfReversed->next=curr;
+        curr->next=NULL;
+        return newHead;
+
+    }
+};
+```
+
+<img width="736" height="327" alt="image" src="https://github.com/user-attachments/assets/da61ee41-12f0-4cd8-a87d-6041862a4ad3" />
+
+Time Complexity: O(n),Each node is visited exactly once during the recursive call, and we do constant-time work for each node (like flipping pointers).
+
+Space Complexity: O(n),The recursion stack goes up to n levels deep (one for each node), which uses extra space on the call stack.
