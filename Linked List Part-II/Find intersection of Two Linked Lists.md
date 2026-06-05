@@ -52,6 +52,22 @@ node* intersectionPresent(node* head1, node* head2) {
 
 **TC=O(m+n) as each LL is traversed once, and SC=O(N)**
 
+# Length Approach
+
+<img width="1011" height="397" alt="image" src="https://github.com/user-attachments/assets/223d6490-4d9f-4bac-98a9-7b95b0d3d676" />
+
+Make t2 and t1 stand at same vertical position.
+
+How can we do this? 
+
+- Find the length of both lists.
+- Find the positive difference between these lengths ( max(length1,length2) - min(length1,length2) ).
+- Move the pointer of the larger list by the difference achieved. This makes our search length reduced to a smaller list length.
+- Now t1 and t2 are at same vertical location.
+- Move both pointers. If they collide then at that position, there is an intersection.
+- If no collision found then return NULL.
+
+
 ## Optimal solution (Using two pointers to traverse, if they meet, we got solution)
 
 Point the d1 to head of LL1 which is headA, and point d2 to head of LL2 which is headB.
@@ -64,4 +80,34 @@ If there exists an intersection, then it would have found by d1==d2.
 
 If there is no intersection then both d1 and d2 points to NULL making d1==d2 and ending the LOOP.
 
+
 <img width="1465" height="832" alt="ezgif-571964899f6e4a7a" src="https://github.com/user-attachments/assets/05b8c802-7b00-4099-be55-8930fe84dff5" />
+
+*If Length of both LLs are equal, then they collide directly and no need to swap d1 or d2 when NULL is faced*
+
+```cpp
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode *d1=headA;
+        ListNode *d2=headB;
+        while(d1!=d2){
+            if(d1==NULL){
+                d1=headB;
+            }else{
+                d1=d1->next;
+            }
+            if(d2==NULL){
+                d2=headA;
+            }else{
+                d2=d2->next;
+            }
+        }
+        return d1;
+    }
+};
+```
+
+**Time Complexity: O(2 × (length of list1 + length of list2))** as t1 moves length1+length2 and t2 moves same
+
+**Space Complexity: O(1), No extra data structure is used.**
