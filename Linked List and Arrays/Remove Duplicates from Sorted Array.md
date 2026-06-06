@@ -30,6 +30,8 @@ TC=O(N) and SC=O(N)
 
 ## OPTIMAL using 2 pointers
 
+> NO need of counter, use index to return no. of uniques
+
 - Begin at the first position, which will always be part of the final unique list.
 - Move through the list one item at a time, comparing the current item with the most recently kept unique item.
 - If the current item is the same as the last kept one, skip it because it’s a duplicate.
