@@ -67,7 +67,8 @@ Algorithm:
 5) Finally return the Total
 <img width="490" height="325" alt="image" src="https://github.com/user-attachments/assets/05660fa1-5ef7-40f3-ab51-3df0362009b7" />
 
-
+**The index at which your leftIndex becomes equals to rightIndex is the highest bar in the array**
+<br>
 ```cpp
 class Solution {
 public:
