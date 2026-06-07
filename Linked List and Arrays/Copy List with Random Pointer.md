@@ -24,6 +24,10 @@ So using this, creating linkings like, for copy of Node 1{val of Node1 in Map}, 
 
 DO same for random linking
 
+<img width="679" height="402" alt="image" src="https://github.com/user-attachments/assets/5f6087dc-7a33-46a0-9438-703fc637a1ad" />
+
+
+
 **TC=O(2N) and SC=O(N) , as map stores all nodes**
 
 ## OPTIMAL SOLUTION 
@@ -40,10 +44,18 @@ Now point current/temp again to Head and now
 
 **TC=O(3N) and SC=O(1)**
 
-> 1. Traverse and create dummy next to OG
-> 2. Traverse and create Random linkings of dummy
-> 3. Traverse and create ``next`` linkings of dummy
+> 1. Traverse and create dummy next to OG ( OG->OG's Copy->OG->OG's Copy->X )
+<img width="680" height="237" alt="image" src="https://github.com/user-attachments/assets/2cb7c10c-c562-4a90-8783-41344cb1d9f5" />
+<br>
 
+> 2. Traverse and create Random linkings of dummy Nodes 
+<img width="684" height="247" alt="image" src="https://github.com/user-attachments/assets/960a726f-1222-4f0a-a296-9eb5bf3fbcd5" />
+<br>
+
+> 3. Traverse and create ``next`` linkings of dummy and make OG and Dummy as different
+<img width="705" height="266" alt="image" src="https://github.com/user-attachments/assets/25e10343-90af-4668-a3e2-24c4b8f451fb" />
+Make both Separate
+<br>
 
 ```cpp
 /*
@@ -94,3 +106,4 @@ public:
 };
 ```
 
+**TC=O(3N) and SC=O(1)**
