@@ -42,3 +42,118 @@ If your ele is smaller than mini, it means you have modified
 
 
 
+
+
+
+<br>
+
+----------------
+
+# Min Stack
+
+[LeetCode](https://leetcode.com/problems/min-stack/)
+
+# OPTIMAL Approach 1 - Using 2 stacks or single stack of pair<int,int>
+
+```cpp
+class MinStack {
+public:
+    stack<pair<int, int>> st;
+    MinStack() {
+        
+    }
+    
+    void push(int val) {
+        if (!st.empty()) {
+            st.push({val, min(val, st.top().second)});
+        } else {
+            st.push({val, val});
+        }
+    }
+    
+    void pop() {
+        st.pop();
+    }
+    
+    int top() {
+        return st.top().first;
+    }
+    
+    int getMin() {
+        return st.top().second;
+    }
+};
+```
+
+TC=O(1) and SC=(2N) as stack stores {value,minimumTillNow}
+
+# OPTIMAL Approach - Using Single stack and one Mini variable and Formula
+
+**Formula: Encoded = 2*newMin - oldMin**
+
+```cpp
+class MinStack {
+    stack<long long> s;
+    long long mini;
+public:
+    MinStack() {
+        mini=INT_MAX;
+    }
+    //2*value - Mini = newVal
+    void push(int value) {
+        if(s.empty()){
+            mini=value;
+            s.push(value);
+            return;
+        }
+        if(value<mini){ //mini changes
+            // int newValue = (2*value)-mini; //-6+2 = -4 and new mini -3
+            s.push((2LL*value)-mini); //coded
+            mini = value;
+            
+        }else{
+            s.push(value); //mini not changes
+        }
+    }
+    
+    void pop() {
+        if(s.empty()) return;
+        long long mayEncoded = s.top();
+        s.pop();
+        if(mayEncoded<mini){//Means mayEncoded was coded
+            //get previous mini
+            //2*newMini - prevMini = encoded
+            //2*newMini - encoded = prevMini , need=-2 and have mini=-3 and mayEncoded=-4
+            mini = 2*mini - mayEncoded;
+        }
+        //else mini remains as it is
+    }
+    
+    int top() {
+        if(s.empty()) return -1;
+        if(s.top()<mini){
+            //Means it is encoded
+            //So it means our mini is the top, as it was changing the mini hence we coded it
+            return mini;
+        }
+        return s.top();
+    }
+    
+    int getMin() {
+        if(s.empty()) return -1;
+        return mini;
+    }
+};
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack* obj = new MinStack();
+ * obj->push(value);
+ * obj->pop();
+ * int param_3 = obj->top();
+ * int param_4 = obj->getMin();
+ */
+```
+
+TC=O(1) and SC=(N) as single stack is used
+
