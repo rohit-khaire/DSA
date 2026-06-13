@@ -4,6 +4,17 @@
 
 Given an array of integers arr, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position. Return the max in each sliding window.
 
+## Brute Force
+
+Brute Force (Sliding Window Maximum)
+1. Take every window of size K from left to right (0 to N-K).
+2. Traverse all K elements inside the current window and find the maximum.
+3. Store the maximum in the answer array and move the window by one position.
+
+Complexity:
+- TC = O((N-K+1) × K) ≈ O(NK)
+- SC = O(1) (excluding output array)
+
 # Approach, Very Simple, Solved it in first attempt just by understanding the Concept
 
 As our window is sliding, we can have a Queue to add element from back and remove element from front to maintain a k size Window
