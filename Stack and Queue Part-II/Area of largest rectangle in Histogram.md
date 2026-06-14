@@ -244,4 +244,137 @@ currHeight = (i==n)?0:heights[i];
 This is why many experienced programmers think of the stack as a "bars waiting for their first smaller element on the right." The moment that smaller element appears, the bar's story is finished, and its area is computed
 
 
+<br><br>
 
+
+```cpp
+BEST TO Understand
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& arr) {
+        int maxArea=INT_MIN;
+        int n=arr.size();
+        stack<int>st;
+        for(int i=0;i<n;i++){
+            while(!st.empty() && arr[st.top()]>arr[i]){
+                int element=arr[st.top()];
+                st.pop();
+                int nse=i;
+                int pse=st.empty()?-1:st.top();
+                maxArea=max(maxArea,element*(nse-pse-1));
+            }
+            st.push(i);
+        }
+        while(!st.empty()){
+            int element=arr[st.top()];
+            st.pop();
+            int nse=n;
+            int pse=st.empty()?-1:st.top();
+            maxArea=max(maxArea,element*(nse-pse-1));
+        }
+        return maxArea;
+    }
+};
+```
+
+<br><br><br><br><br><br>
+
+```cpp
+OPTIMIZED CODE with best comments
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        int maxiArea = 0;
+        stack<int> s;
+        int n = heights.size();
+        for(int i=0; i<=n; i++){
+            //Going till N index, which doesn't exist, but when I am on N, there can be one edge case of Example: 1234567
+            //No one pops. NSE is added as N, when no one is NSE (None)
+            //When no one is PSE available, then PSE is added as -1
+            // Current height
+            // When i==n, assume height=0
+            // This forces all remaining bars to pop from Stack
+            int currHeight = (i==n) ? 0 : heights[i];
+
+            // I am smaller, and I am NSE (i), I break the rectangle
+            while(!s.empty() && heights[s.top()] > currHeight){
+
+                int top = s.top();
+                s.pop();
+
+                // Now heights[s.top()] is PSE and i is NSE
+                // Calculate area for heights[top]
+
+                int height = heights[top];
+
+                // width = NSEindex - PSEindex - 1
+
+                int pseIndex = s.empty() ? -1 : s.top();
+                int nseIndex = i;
+
+                int width = nseIndex - pseIndex - 1;
+
+                int area = height * width;
+
+                maxiArea = max(maxiArea, area);
+            }
+
+            // I am bigger than previous,
+            // maintaining increasing order in stack
+            // | 1 2 2 3 4 4 5 6 7 <- PUSH, calculations happens when smaller comes : | 23456|3
+            s.push(i);
+        }
+        // If you dont wish to <=N, then can have a while loop here => while(!s.empty())
+
+        return maxiArea;
+    }
+};
+```
+
+
+
+
+
+-----------------------
+
+
+TC=O(N) and SC=(N)
+
+
+
+
+# Simple Understanding
+
+
+1. Start traversing the histogram from Left → Right.
+
+2. Maintain a Monotonic Increasing Stack
+   => 1 2 2 3 4 4 5 6 (heights)
+   => In reality, we store INDICES, not heights.
+
+3. Every bar wants to expand Left and Right to form the largest rectangle.
+
+4. As long as current height >= stack top height,
+   push the current index because the rectangle is still expanding.
+
+5. When current height < stack top height,
+   current bar becomes the NSE (Next Smaller Element)
+   for all taller bars in the stack.
+
+6. Now start popping:
+   while(!s.empty() && heights[s.top()] > currHeight)
+
+7. For every popped bar:
+   - height = heights[top]
+   - NSE = current index (i), for None, we store N
+   - PSE = new stack top index after popping, for None, we store -1
+   - width = NSE - PSE - 1
+   - area = height × width
+
+8. Update maximum area for every popped bar.
+
+9. After processing all bars,
+   assume one extra bar of height 0 at the end.
+   This forces all remaining bars to pop and calculate their areas. For edge case where vals are in increasing order, 223445678. So No one pops
+
+10. Answer = Maximum Area found. 
