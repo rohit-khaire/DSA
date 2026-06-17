@@ -137,3 +137,7 @@ for(auto it : s) cout << it << " ";
 * `unordered_set` → **Unsorted + Unique + O(1) average** 
 
 
+
+# String
+
+s.substr(position/index,length)   to get substring from a string ``s`` and position is starting index and length is length of substring, if grater length then I think it gives whole string
