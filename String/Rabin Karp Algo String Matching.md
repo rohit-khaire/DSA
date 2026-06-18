@@ -687,3 +687,73 @@ add new char
 Everything else (d, q, h, 256, 101, etc.) is just different notation for the same idea. Once you understand "remove → shift → add", Rabin-Karp becomes very easy to derive during interviews instead of memorizing formulas.
 
 
+<br><br><br><br><br><br>
+686. Repeated String Match
+
+Given two strings a and b, return the minimum number of times you should repeat string a so that string b is a substring of it. If it is impossible for b​​​​​​ to be a substring of a after repeating it, return -1.
+
+Notice: string "abc" repeated 0 times is "", repeated 1 time is "abc" and repeated 2 times is "abcabc".
+
+# Approach 1 using Naive String Matching
+
+- int repeatedStringMatch(string a,string b)
+  - if a==b, return count as 1
+  - Initialize source=a and count=1
+  - add a in source while source.size() < b.size() , to search b in source
+  - Now our source.size() >= b.size()
+  - match source and b
+    - if b is found in source, then return count
+    - Find b in source+a , if found then return count+1
+  - return -1, as no b can be found in repeated a
+
+<br><br>
+
+- for string matching, using Naive String Match
+- bool searchPattern(string text, string pattern) // Pattern is to be search inside text
+  - if text and pattern are equal, then return true
+  - get size of text(n) and size of pattern(m)
+  - We start our sliding window, and match pattern each time
+
+**TC=O(n*m) for pattern finding**
+
+```cpp
+class Solution {
+public:
+    bool searchPattern(string text,string pattern){
+        if(text==pattern) return true;
+        int n=text.size();
+        int m=pattern.size();
+        for(int i=0;i<=n-m;i++){
+            for(int j=0;j<m;j++){
+                if(text[i+j]!=pattern[j]) break;
+                if(j==m-1 && text[i+j]==pattern[j]) return true;
+            }
+        }
+        return false;
+    }
+    int repeatedStringMatch(string a, string b) {
+        if(a==b) return 1;
+        string source=a;
+        int count=1;
+        // To find b in source
+        while(source.size()<b.size()){
+            source+=a;
+            count++;
+        }
+        // Now source.size() is either ==b.size() or >b.size()
+        // if(source==b){
+        //     // b substring is equals to source
+        //     return count; // required no. of times a is required
+        // }
+        if(searchPattern(source,b)) return count;
+        if(searchPattern(source+a,b)) return count+1; //search b in source+a
+        return -1;
+    }
+};
+```
+TC=O(n+m) for string construction + O((m+n)*m) for first string search,m comparison each + O((m+2n)*m)
+
+
+
+# Approach using Rabin Karp for string matching
+
