@@ -1,6 +1,6 @@
 # Rabin Karp Algorithm - String Matching
 
-[LeetCode](
+[LeetCode](https://leetcode.com/problems/repeated-string-match/)
 
 # Approach
 
@@ -757,3 +757,102 @@ TC=O(n+m) for string construction + O((m+n)*m) for first string search,m compari
 
 # Approach using Rabin Karp for string matching
 
+repeatedStringMatch(string a, string b) remains as it is, we just change the Searching Methods from Naive to Rabin Karp
+
+- if text == pattern , return true
+- get text size(n) and pattern size(m)
+- if m>n , then return false
+- define BASE to build HashValues and MOD to reduce the values
+- get highestPower as BASE^m-1, this is highest power possible like for m=3, pattern = 528 => HashVal = 5*31^2 + 2*31^1 + 8*31^0 <= highestPower goes till =m-1=3-1=2 and highestPower=BASE^m-1, we are not using pow() for calculating it as function return double
+- reduce the highestPower value using MOD
+- Now Calculate initial hashValues for Initial Window and Pattern **(Polynomial)** => abc = a*BASE^m-1 + b*BASE^m-2 + c^m-3
+- Now start using Sliding Window on Text
+  - If hash value of Pattern matches with hash value of Window on Text
+    - We match character by character, pattern and window on text
+    - if this character matching is last index of window, and if last elements of pattern and text's window are also matching, then return true
+  - If Next Window exists
+    - Calculate Hash Value of Next Window OPTIMALLY
+      - by removing left most element from current hash value and add new element from right (Remember to multiply with base to make a^2 to a^3, so that after removing left most element, all the elemnts shifts to left)
+     
+
+<br>
+RABIN KARP AVG TC = O(N+M) and WORST TC = O(N*M)
+
+```cpp
+class Solution {
+public:
+    int valOfAlpha(char character){
+        return character-'a'+1;
+    }
+    bool searchPattern(const string& text, const string& pattern) {
+        if(text==pattern) return true;
+        int n = text.size();
+        int m = pattern.size();
+        if (m > n) return false;
+        const long long BASE = 31;  //can be 26,31,256
+        const long long MOD = 1000000007; //to make numbers smaller, using giant prime number
+        long long patternHash = 0; //hash value of Pattern which will be matched with textHash
+        long long textHash = 0;  //hash value of current Text Window
+        long long highestPower = 1; //Same for everyone, and pow returns double
+        //Calc BASE^(m-1)%MOD
+        for (int i = 0; i < m - 1; i++)
+            highestPower = (highestPower * BASE) % MOD;
+
+        //Calc initial hash values, for pattern and initial window
+        for (int i = 0; i < m; i++) {
+            // Find initial Hash Values of text and pattern => 123 = 1*31^2 + 2*31^1 + 3*31^0
+            // converting a to 1, b to 2,.. => character-'a'+1
+            patternHash = (patternHash * BASE + (text[i]-text[i]+pattern[i]-'a'+1)) % MOD;
+            textHash = (textHash * BASE + (text[i]-'a'+1)) % MOD;
+        }
+
+        for (int i=0; i<=n-m; i++) { //Last Window's starting index is n-m
+            if (textHash == patternHash) { //If hash matches then only compare characters of Window and Pattern
+                bool match = true;
+                for (int j = 0; j < m; j++) {
+                    if (text[i + j] != pattern[j]) {
+                        match = false;
+                        break;
+                    }
+                }
+
+                if (match) return true; //Same as if last index of window matches with pattern, then return true
+            }
+
+            if (i == n - m) break; //If we are on last window, then don't calculate next window's hashValue 
+            //Calc next window's hash value optimally, by removing most left element and add new right element 
+            textHash =
+                (
+                    (
+                        textHash -
+                        ((text[i] - 'a' + 1) * highestPower) % MOD
+                        + MOD
+                    ) % MOD
+                );
+
+            textHash =
+                (textHash * BASE + (text[i + m] - 'a' + 1)) % MOD;
+        }
+
+        return false;
+    }
+    int repeatedStringMatch(string a, string b) {
+        if(a==b) return 1;
+        string source=a;
+        int count=1;
+        // To find b in source
+        while(source.size()<b.size()){
+            source+=a;
+            count++;
+        }
+        // Now source.size() is either ==b.size() or >b.size()
+        // if(source==b){
+        //     // b substring is equals to source
+        //     return count; // required no. of times a is required
+        // }
+        if(searchPattern(source,b)) return count;
+        if(searchPattern(source+a,b)) return count+1; //search b in source+a
+        return -1;
+    }
+};
+```
