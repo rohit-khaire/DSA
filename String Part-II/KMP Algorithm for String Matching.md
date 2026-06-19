@@ -42,7 +42,7 @@ This is where KMP does optimization over Naive. In this second window, we only c
 ``lps[i] = the longest proper prefix of pat[0..i] which is also a suffix of pat[0..i]. ``
 
 
-# Algorithm for Construction of LPS Array
+# Construction of LPS Array
 
 lps[0] is always 0 since a string of length one has no non-empty proper prefix. We store the value of the previous LPS in a variable len, initialized to 0. As we traverse the pattern, we **compare the current character at index i, with the character at index len.**
 
@@ -51,6 +51,40 @@ Case 1 - pat[i] == pat[len]: this means that we can simply extend the LPS at the
 Case 2 - pat[i] != pat[len] and len == 0: it means that there were no matching characters earlier and the current characters are also not matching, so lps[i] = 0.
 
 Case 3 - pat[i] != pat[len] and len > 0: it means that we can't extend the LPS at index i-1. However, there may be a smaller prefix that matches the suffix ending at i. To find this, we look for a smaller suffix of pat[i-len...i-1] that is also a proper prefix of pat. We then attempt to match pat[i] with the next character of this prefix. If there is a match, pat[i] = length of that matching prefix. Since lps[i-1] equals len, we know that pat[0...len-1] is the same as pat[i-len...i-1]. Thus, rather than searching through pat[i-len...i-1], we can use lps[len - 1] to update len, since that part of the pattern has already been matched. 
+
+
+# Algo for Construction of LPS Array
+
+- Take Pattern as input
+- Have LPS array with same size as of input Pattern Array, make LPS[0]=0, as it's always 0
+- get Pattern Length (m), so that we can traverse the whole pattern to build LPS Array
+- we point len or j to 0th index and, i to 1st index (j=0 and i=1)
+- we start traversing pattern using i and build LPS at each ith index, while(i<m)
+  - if current character (pattern[i]) is == pattern[j] (character at j) (BOTH chars match)
+    - Store the lenghth from 0 to j index at lps[i] (lps[i]=j+1) (If on next character, a missmatch occurs, then we can just move to this index)
+    - Move j and i ahead (j++ and i++)
+  - Else there is a Mismatch (pattern[i]!=pattern[j])
+    - if j==0 (No matching prefix found)
+      - lps[i] = 0;
+      - Move i ahead (i++)
+    - if j!=0 (There is matching prefix)
+      - Move j to previous index's val of lps (j=LPS[j-1])
+      - Stay at same position ( i remains as it is, don't change it's position )
+- return LPS Array
+
+
+# Algo for Searching Pattern in Text using LPS
+
+We traverse text only once, no backing, just start from 0 and no stop or reverse till end
+
+- have i and j pointing 0th index, i will traverse Text and j will traverse Pattern
+- Now start matching the corresponding characters:
+- if j==pattern.size, then we found full pattern at i-j index and now move j to LPS[j-1] 
+- if Matched (text[i]==pattern[j]), move both ahead (i++ and j++)
+- if NoMatch (text[i]!=pattern[j]):
+  - if j==0, then just move the text pointer (i++)
+  - if j!=0, just point j to LPS[j-1]
+
 
 
 
