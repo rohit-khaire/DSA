@@ -1,6 +1,13 @@
 # KMP
 
+[LeetCode](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string/)
 
+
+Actually it's simple. **It gives 0ms on Burte Force (Naive String Matching) and gives 2 ms on KMP Solution**
+
+We maintain a extra LPS array for pattern matching, which is preprocessed Pattern.
+
+## Very Simple, Coded in 1st attempt by just understanding the Approach
 
 # Algorithm
 
@@ -86,7 +93,74 @@ We traverse text only once, no backing, just start from 0 and no stop or reverse
   - if j!=0, just point j to LPS[j-1]
 
 
+```cpp
+class Solution {
+public:
+    vector<int> buildLPS(string pattern){
+        int m = pattern.size();
+        vector<int> LPS(m,0);
+        int j=0,i=1;
+        while(i<m){
+            if(pattern[i]==pattern[j]){
+                LPS[i]=j+1;
+                j++;
+                i++;
+            }else{
+                if(j==0){
+                    LPS[i]=0;
+                    i++;
+                }else{
+                    //mismatch and prefix is present
+                    j=LPS[j-1];
+                }
+            }
+        }
+        return LPS;
+    }
+    int strStr(string text, string pattern) {
+        if(pattern=="") return 0;
+        vector<int> LPS=buildLPS(pattern);
+        int i=0,j=0;
+        while(i<text.size()){
+            if(j==pattern.size()) break;
+            if(text[i]==pattern[j]){
+                //character match
+                i++;
+                j++;
+            }else{
+                //no character match
+                if(j==0){
+                    i++;
+                }else{
+                    //there is prefix
+                    j=LPS[j-1];
+                }
+            }
+        }
+        return j==pattern.size()?i-j:-1;  //if true, means pattern was found and hence loop was break
+    }
+};
+```
 
+<br>
+
+
+| Step      | TC         | SC       |
+| --------- | ---------- | -------- |
+| Build LPS | O(M)       | O(M)     |
+| Search    | O(N)       | O(1)     |
+| Total     | **O(N+M)** | **O(M)** |
+
+
+
+
+<br><br>
+
+| Algorithm   | Best TC | Average TC | Worst TC | SC   |
+| ----------- | ------- | ---------- | -------- | ---- |
+| Brute Force | O(N)    | O(NM)      | O(NM)    | O(1) |
+| Rabin-Karp  | O(N+M)  | O(N+M)     | O(NM)    | O(1) |
+| KMP         | O(N+M)  | O(N+M)     | O(N+M)   | O(M) |
 
 
 
