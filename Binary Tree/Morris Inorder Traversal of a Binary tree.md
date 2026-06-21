@@ -10,6 +10,10 @@ But in Morris, we take TC:O(N) and SC:O(1)
 
 A tree where leaf nodes are connected to inorder predecessor or inorder successor. These links are known as Threads.
 
+<img width="255" height="256" alt="image" src="https://github.com/user-attachments/assets/103516b8-9c07-4e94-8874-1ddcb077d31f" />
+
+We endup when curr goes to NULL, next(right) of 3.
+
 # Approach
 
 Left - Root - Right
