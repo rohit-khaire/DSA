@@ -260,3 +260,19 @@ Level 3 -> 6
 - In Balanced Tree: H = logN
 
 
+# For left side view
+
+Just swap 
+```cpp
+rightSide(root->right,level+1,res);
+rightSide(root->left,level+1,res);
+            |
+            V
+
+rightSide(root->left,level+1,res);
+rightSide(root->right,level+1,res);
+```
+
+Rest everything remains same.
+
+This will do Root-Left-Right
