@@ -78,3 +78,81 @@ Can be done using, ``map<int,multiset<int>>`` , so **int for Horizontal Lines (Y
 We we get a Data Structure as ``map<int,map<int,multiset<int>>>``
 
 <img width="1254" height="636" alt="image" src="https://github.com/user-attachments/assets/cd844abe-a6d2-41ba-a446-2a4d751d19a3" />
+
+-----------
+
+<br><br>
+
+CODE:
+```cpp
+class Solution {
+public:
+    vector<vector<int>> verticalTraversal(TreeNode* root) {
+        vector<vector<int>> res;
+        if(root==NULL) return res;
+        queue<pair<TreeNode*,pair<int,int>>> q; //{root,{vertLevel,horizLevel}}
+        q.push({root,{0,0}});  // Initially Level (0,0)
+        map<int,map<int,multiset<int>>> mpp; // stores vertLevel -> horLevel -> {2,3,3}
+        //as vertLevel will contain multiple horiLevel which can be same for 2 nodes
+        while(!q.empty()){  //Using BFS
+            TreeNode *node = q.front().first;
+            int x = q.front().second.first;
+            int y = q.front().second.second;
+            mpp[x][y].insert(node->val);
+            q.pop();
+            if(node->left){
+                q.push({node->left,{x-1,y+1}});
+            }
+            if(node->right){
+                q.push({node->right,{x+1,y+1}});
+            }
+        }
+        //MOST IMP PART than traversal
+        //map<int,map<int,multiset<int>>> mpp;
+        // Now map has 
+        //p   q   val
+        //0->{0->{1}}
+        // ->{2->{1,2}}
+        for(auto p : mpp){
+            vector<int>temp;
+            for(auto q : p.second){
+                for(auto val : q.second)
+                {
+                    temp.push_back(val);
+                }
+            }
+            res.push_back(temp);
+        }
+        return res;
+    }
+};
+```
+
+TC:
+```
+mpp[x][y].insert(node->val)
+=
+O(log N)+O(log N)+O(log N)
+=
+O(log N)
+
+and for BFS, for N nodes:
+N × O(log N)
+=
+O(N log N)
+
+and for final res building at Last:
+O(N) as N nodes were stored
+
+
+Total TC: O(N log N) + O(N)
+```
+
+SC:
+```
+Queue: O(N)
+
+Map: O(N)
+
+Result Vector: O(N)
+``
