@@ -36,6 +36,8 @@ public:
 
 # Approach using BFS
 
+Just count Number of Levels in Binary Tree
+
 ```cpp
 class Solution {
 public:
