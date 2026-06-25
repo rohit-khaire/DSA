@@ -36,4 +36,28 @@ public:
 
 # Approach using BFS
 
-
+```cpp
+class Solution {
+public:
+    void bfs(TreeNode *root, int &level){
+        if(root==NULL) return;
+        queue<TreeNode*> q;
+        q.push(root);
+        while(!q.empty()){
+            int n=q.size();
+            for(int i=0;i<n;i++){
+                TreeNode *node = q.front();
+                if(node->left) q.push(node->left);
+                if(node->right) q.push(node->right);
+                q.pop();
+            }
+            level++;
+        }
+    }
+    int maxDepth(TreeNode* root) {
+        int level=0;
+        bfs(root,level);
+        return level;
+    }
+};
+```
