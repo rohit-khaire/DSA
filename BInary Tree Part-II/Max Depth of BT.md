@@ -34,6 +34,28 @@ public:
 };
 ```
 
+# Another Recursive solution
+Just 4 Lines of Code
+
+- If root==NULL, return 0
+- recursive call to root->left, to get it's height
+- recursive call to root->right, to get it's height
+- return max(left,right)+1
+
+```cpp
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if(root==NULL) return 0;
+        int left = maxDepth(root->left);
+        int right = maxDepth(root->right);
+        return max(left,right)+1;
+    }
+};
+```
+
+SC: O(N) and SC:O(N)
+
 # Approach using BFS
 
 Just count Number of Levels in Binary Tree
@@ -63,3 +85,5 @@ public:
     }
 };
 ```
+
+TC:O(N) and SC:O(N)
