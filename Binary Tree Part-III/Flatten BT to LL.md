@@ -37,3 +37,40 @@ public:
 ```
 
 TC: O(N) & SC:O(H) = O(N) at worst
+
+
+# Apprach : Using Single Stack
+
+- Use a stack to keep Track of Nodes
+- Push the Root to the Stack
+- Loop, while(!st.empty())
+  - get st.top() as node and pop it
+  - now, if node has right, then push it. **Push right first as we will be connecting right nodes at last**
+  - now, if node has left, then push it.
+  - if stack is not empty, then stack's top is current node's left
+  - so make current node's left as NULL and node's right as stack's top
+
+```cpp
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        if(!root) return;
+        stack<TreeNode*> st;
+        st.push(root);
+        while(!st.empty()){
+            TreeNode *node = st.top();
+            st.pop();
+            if(node->right) st.push(node->right); // as right is to be linked at last
+            if(node->left) st.push(node->left);
+            if(!st.empty()) node->right=st.top();
+            node->left=NULL;
+        }
+    }
+};
+```
+
+TC: O(N) and SC:O(H) = O(N)
+
+
+# Approach : Morris Preorder
+
