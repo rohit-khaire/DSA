@@ -74,3 +74,36 @@ TC: O(N) and SC:O(H) = O(N)
 
 # Approach : Morris Preorder
 
+**Using Threaded Tree** concept
+
+- point cur to root
+- loop while(cur)
+  - if(cur->left)
+    - make prev = cur->left
+    - go to most right node of prev using loop
+    - make prev->right = cur->right
+    - now we can make cur->right = cur->left and make cur->left = NULL
+  - now we can move to cur->right
+
+```cpp
+class Solution {
+public:
+    void flatten(TreeNode* root) {
+        if(root==NULL) return;
+        TreeNode *cur = root;
+        while(cur){
+            if(cur->left){
+                TreeNode *prev = cur->left;
+                while(prev->right) prev=prev->right;
+                prev->right = cur->right;
+                cur->right=cur->left;
+                cur->left = NULL;
+            }
+            cur=cur->right;
+        }
+    }
+};
+```
+
+
+TC: O(N) and SC:O(1)
