@@ -47,6 +47,10 @@ Time Limit Exceeds for large numbers
 
 <br>
 
+<img width="568" height="235" alt="image" src="https://github.com/user-attachments/assets/6efff2b1-7362-453a-9af9-3146b9424dad" />
+
+<br>
+
 - We iterate the string one and calculate and store
   - Sum of prefix till now (Sum of elements till this index)
   - Created number of non-zeros till now (Concatinated numbers till this index), Later we can cut the left-right digits according to query index. Save in moded number
