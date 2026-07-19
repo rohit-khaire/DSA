@@ -10,11 +10,13 @@ Given a non-negative integer c, decide whether there're two integers a and b suc
 - We take square root of C
 - Now we point Left to 0 and Right to Square root of C
 - Now, we treat Left as A and Right as B
+- We loop while (left<=right)
 - Calculate A^2 + B^2
 - If this result is Equals to C, we return True
 - Else if, result is > C , right--
 - else left++
 - So our result comes under these left and right if exists (Initially between 0 and sqrt(C)), and we reduce this range one by one
+- when left becomes > right, loop ends
 
 ```cpp
 class Solution {
