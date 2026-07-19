@@ -15,6 +15,11 @@ So, we need to goto given index and change the color of that element to newColor
 
 - Check if given element is already having newColor? If yes then return image as it is
 - Create a copy of image, so that our input is not altered
+- Now perfrom dfs by passing (copy,row(sr),col(sc),oldColor,newColor)
+- we return if our index (row or column) is out of bound (Out of 2D matrix) or current value is not oldColor
+- change current element's colour to newColor
+- perform dfs on above row, below row, prev column, next column
+- We get result in copy 2D matrix
 
 
 ```cpp
@@ -39,4 +44,4 @@ public:
 };
 ```
 
-
+SC: Recursion stack
