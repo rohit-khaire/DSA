@@ -6,6 +6,8 @@ Find the maximum unit of water (Area) you can store in Container
 
 We want maximum water which we can store,.
 
+Visualize it using [ChaiCode](https://dsa.chaicode.com/two-pointers/container-with-most-water)
+
 # Approach - Two pointers
 
 - We just point left to 0 and right to N-1
