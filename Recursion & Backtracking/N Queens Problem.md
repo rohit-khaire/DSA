@@ -24,6 +24,12 @@ We try placing queen on each location and check whether it can be placed or not.
 
 # Algorithm - Simple, Searches for Other Queen in all directions
 
+
+
+<img width="1366" height="767" alt="image" src="https://github.com/user-attachments/assets/dfc4dabb-fa9d-43dc-8b9a-f8aabac971c4" />
+
+
+
 - ``solveNQueens`` is the main function which gets called from main
   - We create one vector<vector<string>> ans; This stores our final answer, Which are chessboards with arrangements of Queen
   - We create one vector<vector<char>> temp(n, vector<char>(n, '.')); This is our temporary chessboard, this will be used to check all possible moves. - means empty position and Q means Q is placed. As we need to allow to change each element [i][j] , we are having characters, so that - can be replaced by Q and vice versa.
@@ -48,6 +54,10 @@ We try placing queen on each location and check whether it can be placed or not.
 - ``canPlace()`` function used to check whether the Queen can be placed in current [row][col] or not, by checking is there any Queen in left directions or not?
   - If there is attacking Queen in current row, or left-Up direction, or left-Down direction, then return False, as cannot place Queen at this index
   - else return True
+ 
+
+<img width="227" height="201" alt="image" src="https://github.com/user-attachments/assets/c05f67fe-9b36-4bd4-80e5-6dd53e4dfc92" />
+
  
 **In Optimized Version: We use hash instead of searching for Queen each time in all left directions**
 
@@ -114,3 +124,101 @@ public:
 };
 ```
 
+
+# Optimzed - Replace searching with Hashing
+
+We keep 3 Extra Spaces for Hashing
+
+Instead of checking every row, column, and diagonal every time we place a queen (which is slow), we use precomputed boolean arrays to instantly check if a queen can be safely placed. Each array acts like a hash for fast lookup. A row array keeps track of which rows already have a queen. Two diagonal arrays (lowerDiagonal and upperDiagonal) keep track of the diagonals that are under attack. This avoids repetitive scanning and makes the backtracking highly efficient.
+- Initialize three boolean arrays, one for rows, one for lower diagonals, and one for upper diagonals.
+- Start placing queens column by column from left to right using backtracking.
+- For a given column, iterate through all rows and check if placing a queen at (row, col) is safe using the hash arrays.
+- To check if placing a queen is safe, ensure the corresponding row, lower diagonal (row + col), and upper diagonal (n - 1 + col - row) are not already marked as attacked in the boolean arrays.
+- If safe, place the queen and mark the corresponding row and diagonals as attacked.
+- Recurse to the next column to place the next queen.
+- When backtracking, remove the queen and unmark the row and diagonals to try other configurations.
+- Count or store the solution if all columns are successfully filled with safe placements.
+
+
+
+<img width="2105" height="1562" alt="image" src="https://github.com/user-attachments/assets/a42ca77c-3df9-4f03-b539-f944cb454339" />
+
+
+
+<img width="2105" height="1562" alt="image" src="https://github.com/user-attachments/assets/e5f7720a-7e32-4a64-ae82-fd47927118e6" />
+
+
+We Hash Rows, when we place
+
+
+
+<img width="377" height="452" alt="image" src="https://github.com/user-attachments/assets/9b81e75d-5172-44f0-b71a-0aea8d70f32d" />
+
+
+
+```cpp
+#include <bits/stdc++.h>
+using namespace std;
+
+class Solution {
+public:
+    // Function to solve N-Queens problem
+    void solve(int col, vector<string>& board, int n,
+               vector<int>& leftRow, vector<int>& upperDiagonal, vector<int>& lowerDiagonal,
+               vector<vector<string>>& ans) {
+        // If all queens are placed
+        if (col == n) {
+            ans.push_back(board);
+            return;
+        }
+
+        // Iterate through all rows
+        for (int row = 0; row < n; row++) {
+            // Check if it's safe to place the queen
+            if (leftRow[row] == 0 && lowerDiagonal[row + col] == 0 &&
+                upperDiagonal[n - 1 + col - row] == 0) {
+
+                // Place the queen
+                board[row][col] = 'Q';
+
+                // Mark the row and diagonals
+                leftRow[row] = 1;
+                lowerDiagonal[row + col] = 1;
+                upperDiagonal[n - 1 + col - row] = 1;
+
+                // Recurse to next column
+                solve(col + 1, board, n, leftRow, upperDiagonal, lowerDiagonal, ans);
+
+                // Backtrack and remove the queen
+                board[row][col] = '.';
+                leftRow[row] = 0;
+                lowerDiagonal[row + col] = 0;
+                upperDiagonal[n - 1 + col - row] = 0;
+            }
+        }
+    }
+
+    // Main function
+    vector<vector<string>> solveNQueens(int n) {
+        vector<vector<string>> ans;
+        vector<string> board(n, string(n, '.'));
+        vector<int> leftRow(n, 0), upperDiagonal(2 * n - 1, 0), lowerDiagonal(2 * n - 1, 0);
+        solve(0, board, n, leftRow, upperDiagonal, lowerDiagonal, ans);
+        return ans;
+    }
+};
+
+int main() {
+    Solution obj;
+    int n = 4;
+    vector<vector<string>> res = obj.solveNQueens(n);
+    for (auto& board : res) {
+        for (auto& row : board) {
+            cout << row << "\n";
+        }
+        cout << "\n";
+    }
+    return 0;
+}
+
+```
