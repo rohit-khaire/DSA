@@ -67,3 +67,73 @@ public:
 ```
 
 
+# Avoid Using Extra Space Approach
+
+Store prefix in Ans vector, then start iterating from last and calculate ans[i] using suffix variable, update suffix
+
+```cpp
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> ans(n, 1);
+
+        // Store prefix products in ans[]
+        for (int i = 1; i < n; i++) {
+            ans[i] = ans[i - 1] * nums[i - 1];
+        }
+
+        // Multiply with suffix products
+        int suffix = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            ans[i] *= suffix;
+            suffix *= nums[i];
+        }
+
+        return ans;
+    }
+};
+```
+
+
+TC:O(2N) and SC:O(N)
+
+
+# If Division Operator is Allowed
+
+Array may contain zero, which can lead to every product as 0. If no zero in Array.
+
+### Case 1: No zero
+
+- Compute the product of all elements.
+
+- For each index i, set:
+
+```cpp
+ans[i] = totalProduct / nums[i]
+```
+
+### Case 2: Zero in Array
+
+1. Only One zero in Array
+
+- Compute the product of all non-zero elements.
+- Only the index containing 0 gets that product.
+- Every other index gets 0.
+
+```cpp
+[1, 2, 0, 4] => [0, 0, 8, 0]
+```
+
+
+2. More than one Zero
+
+Example:
+
+[1, 2, 0, 4, 0]  => [0,0,0,0,0]
+
+Every answer is 0.
+
+
+
+ 
