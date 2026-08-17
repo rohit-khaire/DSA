@@ -47,3 +47,15 @@ public:
 };
 ```
 
+
+## Complexity
+
+Let:
+
+- N = number of nodes in root
+- M = number of nodes in subRoot
+
+For every node in root, we may perform a sameTree() comparison taking O(M).
+
+- Time: O(N × M) worst case
+- Space: O(H) due to recursion, where H is the height of root.
