@@ -3,6 +3,15 @@
 [Leetcode](https://leetcode.com/problems/valid-palindrome/description/)
 
 
+# Approach - Two Pointers
+
+- left starts from the beginning.
+- right starts from the end.
+- Skip characters that aren't letters or digits using isalnum().
+- Compare both characters after converting them to lowercase.
+- If they differ → false.
+- Move both pointers inward.
+- If all characters match → true.
 
 ```cpp
 class Solution {
