@@ -22,6 +22,23 @@ For each string, start from end:
 - Normal character & skip > 0 → skip it and decrease skip
 - Otherwise → this is the next valid character
 
+<br>
+
+```markdown
+Start from right
+      ↓
+Count # as skip
+      ↓
+Skip deleted characters
+      ↓
+Find next valid character
+      ↓
+Compare characters in s and t, if it exists
+      ↓
+Move both pointers (one on S and another on T)
+      ↓
+Repeat
+```
 
 
 <br>
