@@ -60,3 +60,49 @@ public:
 
 **TC=O(N+M) and SC=O(1)**
 
+# Also optimal similar approach
+
+- Get first node of Result LL, and point ``last`` to it (l1 if l1<=l2, also move l1)
+- Point dummy's next to ``last`` (first node of result)
+- Iterate while(l1 && l2)
+  - Compare l1 and l2's values, choose smaller and point last's next to it and move last and (l1 or l2, smalller one)
+- Check if l1 is not null, then point last's next to l1;
+- Else point last's next to l2
+- Return dummy node's next
+
+
+```cpp
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
+        if(l1==NULL) return l2;
+        if(l2==NULL) return l1;
+        ListNode *last;
+        if(l1->val <= l2->val){
+            last=l1;
+            l1=l1->next;
+        }
+        else{
+            last=l2;
+            l2=l2->next;
+        }
+        ListNode dummy(0,last);
+        while(l1 && l2){
+            if(l1->val <= l2->val){
+                last->next=l1;
+                last=l1;
+                l1=l1->next;
+            }else{
+                last->next=l2;
+                last=l2;
+                l2=l2->next;
+            }
+        }
+        if(l1) last->next=l1;
+        else last->next=l2;
+        return dummy.next;
+    }
+};
+```
+
+**TC: O(N+M) and SC:O(1)**
