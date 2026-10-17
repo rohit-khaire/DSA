@@ -12,28 +12,31 @@ If you reach the end of any of the arrays (num1 or num2), then put the remaining
 
 Then put the values of new Array into the arrays num1 and num2
 
-## Optimal Solution (1) without Extra Space
+## Optimal Solution (1) without Extra Space, there in no extra space in any of the array
 
 ```
+
 class Solution {
 public:
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
-        int left = m-1;
+        int left = m - 1;
         int right = 0;
-        while(left>=0 && right<=n-1){
-            if(left>right){
-                swap(nums1[left],nums2[right]);
+
+        while (left >= 0 && right < n) {
+            if (nums1[left] > nums2[right]) {
+                swap(nums1[left], nums2[right]);
                 left--;
-                right--;
-            }
-            else{
+                right++;
+            } else {
                 break;
             }
         }
-        sort(nums1,nums1+m);
-        sort(nums2,nums2+n);
+
+        sort(nums1.begin(), nums1.begin() + m);
+        sort(nums2.begin(), nums2.end());
     }
 };
+
 ```
 
 Keep pointer (left) on end of nums1 array and other pointer (right) on starting of nums2 array
